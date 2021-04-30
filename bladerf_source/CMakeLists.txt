@@ -24,7 +24,12 @@ if (MSVC)
     target_link_libraries(bladerf_source PUBLIC bladeRF)
 else (MSVC)
     # Not in pkg-config
-    target_link_libraries(bladerf_source PUBLIC libbladeRF)
+    find_package(PkgConfig)
+
+    pkg_check_modules(LIBBLADERF REQUIRED libbladeRF)
+
+    target_include_directories(bladerf_source PUBLIC ${LIBBLADERF_INCLUDE_DIRS})
+    target_link_libraries(bladerf_source PUBLIC ${LIBBLADERF_LIBRARIES})
 endif ()
 
 # Install directives
